@@ -1,8 +1,8 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useHistory, Link} from 'react-router-dom';
-
 import Api from './Api';
 import {useAuthContext} from './AuthContext';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import Logo from "./Logo.jpg";
 import Gardenimg from "./gardenimg.jpg";
 import Geneva from './Geneva.jpg';
@@ -11,7 +11,7 @@ import Portrero from './Portrero.jpg';
 import './Header.scss';
 import './Home.scss';
 
-function Home() {
+function Home(props) {
 
   const history = useHistory();
   const {user, setUser} = useAuthContext();
@@ -79,8 +79,34 @@ function Home() {
       </nav>
       <div className="container">
         <div className="col-md-6">
-          <img src={Gardenimg} class="img-thumbnail" alt="Garden Image"/>
-        </div>
+          <div className="container">
+	          <Map
+              google={props.google}
+              zoom={12}
+              style={{height:"100%", width:"43%"}}
+              initialCenter={{
+                lat: 37.7749,
+                lng: -122.4194
+              }}
+            >
+              <Marker
+                title={'Alemany Garden'}
+                name={'Alemany Garden'}
+                position={{lat: 37.73250889664049, lng: -122.41954819865589}}
+                />
+                <h1>hello</h1>
+              <Marker
+                title={'Geneva Community Garden'}
+                name={'Geneva Community Garden'}
+                position={{lat: 37.72056395129933, lng: -122.4454946465868}} />
+              <Marker
+                title={'Portrero Hill Community Garden'}
+                name={'Portrero Hill Community Garden'}
+                position={{lat: 37.75992452843252, lng: -122.40530576008074}} />
+
+            </Map>
+          </div>    
+ 	      </div>
 
         <div className="col-md-6">
           {/*<div className="">
@@ -133,4 +159,6 @@ function Home() {
   );
 }
 
-export default Home;
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyAxUBe7Q5lgu0pwqG0NQeyhiusJ3gV3r5A"
+})(Home)
